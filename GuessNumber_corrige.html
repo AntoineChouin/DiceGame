@@ -1,0 +1,64 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Trouvez le nombre! test2</title>
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet"> </head>
+
+<body ng-app="app">
+    <div class="container" ng-controller="TrouveLeNombre">
+        <h2>Devinez un nombre !</h2>
+        <p class="well lead">Choisissez un nombre généré aléatoirement entre 1 et 100.</p>
+        <label>Votre nombre: </label>
+        <input type="number" ng-model="guess" />
+        <button ng-click="verifyGuess()" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">Vérifier</button>
+        <button ng-click="initializeGame()" class="btn btn-warning btn-sm">Recommencer</button> <span></span>
+        
+         
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Modal title</h4> </div>
+                    <div class="modal-body">
+                        <p ng-show="deviation<0" class="alert alert-warning">Le nombre est plus bas.</p>
+                        <p ng-show="deviation>0" class="alert alert-warning">Le nombre est plus haut.</p>
+                        <p ng-show="deviation===0" class="alert alert-success">Oui! Voilà!</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+   
+ 
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.3/angular.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <script type="text/javascript">
+            angular.module('app', []).controller('TrouveLeNombre', TrouveLeNombre);
+
+            function TrouveLeNombre($scope) {
+                $scope.verifyGuess = function () {
+                    $scope.deviation = $scope.original - $scope.guess;
+                    $scope.noOfTries = $scope.noOfTries + 1;
+                }
+                $scope.initializeGame = function () {
+                    $scope.noOfTries = 0;
+                    $scope.original = Math.floor((Math.random() * 10) + 1);
+                    $scope.guess = null;
+                    $scope.deviation = null;
+                }
+                $scope.initializeGame();
+            }
+        </script>
+</body>
+
+</html>
